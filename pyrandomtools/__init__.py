@@ -6,17 +6,17 @@
 # in addition any special handling for v2/3 can be addressed here as well
 #
 
-from .aws_functions import parse_arn
-from .aws_functions import validate_region
+from pyrandomtools.aws_functions import parse_arn
+from pyrandomtools.aws_functions import validate_region
 
-from .functions import name_of
-from .functions import str2bool
-from .functions import lcase_keys
-from .functions import firstValid
-from .functions import rangePick
-from .functions import treeGet
-from .functions import asList
-from .functions import listContains
-from .functions import validInt
-from .functions import validNumber
-from .functions import function_name
+from pyrandomtools.functions import name_of
+from pyrandomtools.functions import str2bool
+from pyrandomtools.functions import lcase_keys
+from pyrandomtools.functions import firstValid
+from pyrandomtools.functions import rangePick
+from pyrandomtools.functions import treeGet
+from pyrandomtools.functions import asList
+from pyrandomtools.functions import listContains
+from pyrandomtools.functions import validInt
+from pyrandomtools.functions import validNumber
+from pyrandomtools.functions import function_name
