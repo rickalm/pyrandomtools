@@ -128,6 +128,7 @@ def test_treeGet():
     assert under_test.treeGet(myList,'[1]') == 6
     assert under_test.treeGet(myList,'[-1]') == 7
     assert under_test.treeGet(myTree,'string') == 'test'
+    assert under_test.treeGet(myTree,'unknown','default') == 'default'
 
 def test_asList():
     assert under_test.asList("string") == ["string"]
