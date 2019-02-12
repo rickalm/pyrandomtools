@@ -1,4 +1,9 @@
-import boto3
+# It's ok if we do not have boto3
+#
+try:
+    import boto3
+except:
+    pass
 
 amazon_regions = [
     'us-east-1',
