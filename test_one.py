@@ -77,11 +77,11 @@ def test_str2bool():
 
     assert under_test.str2bool(True) is True
     assert under_test.str2bool(False) is False
-    assert under_test.str2bool(-1) is True
-    assert under_test.str2bool(1) is True
-    assert under_test.str2bool(0) is False
-    assert under_test.str2bool('1') is True
-    assert under_test.str2bool('0') is False
+    assert under_test.str2bool(-1) is False
+    assert under_test.str2bool(1) is False
+    assert under_test.str2bool(0) is True
+    assert under_test.str2bool('1') is False
+    assert under_test.str2bool('0') is True
     
     assert under_test.str2bool(None) is False
 

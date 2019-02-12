@@ -49,10 +49,10 @@ def str2bool(testcase):
     
     # Slightly less redundant, but again we are transparent
     if isinstance(testcase,int):
-        return testcase != 0
+        return testcase == 0
 
     # Not sure what else should be considered here
-    return testcase.lower() in ('yes', 'true', 't', 'y', '1')
+    return testcase.lower() in ('yes', 'true', 't', 'y', '0')
 
 def name_of(obj):
     '''Returns the name of the object supplied
