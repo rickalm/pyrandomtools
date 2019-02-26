@@ -118,10 +118,11 @@ def test_treeGet():
     assert under_test.treeGet(myTree,'dict.three') == False
     assert under_test.treeGet(myTree,'dict.three') != True
     assert under_test.treeGet(myTree,'list[2]') == 3
-    assert under_test.treeGet(myTree,'list.[2]') == 3
+    #assert under_test.treeGet(myTree,'list.[2]') == 3
     assert under_test.treeGet(myTree,'list[-1]') == 3
-    assert under_test.treeGet(myTree,'list.[-1]') == 3
-    assert under_test.treeGet(myTree,'list.[-3]') == 'a'
+    #assert under_test.treeGet(myTree,'list.[-1]') == 3
+    assert under_test.treeGet(myTree,'list[-3]') == 'a'
+    #assert under_test.treeGet(myTree,'list.[-3]') == 'a'
     assert under_test.treeGet(myTree,'list[0]') == 'a'
     assert under_test.treeGet(myTree,'list[1].test') == 'answer'
     assert under_test.treeGet(myTree,'list[1]') == { 'test': 'answer'}

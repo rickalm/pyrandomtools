@@ -79,7 +79,30 @@ def function_name(offset=1):
     return str(sys._getframe(offset).f_code.co_name)
 
 
-def treeGet(following, what, defaultAnswer=None):
+def treeGet(obj_to_search, json_path, defaultAnswer=None):
+    '''This function was developed to provide a simple way to traverse python object trees but discovered that jmespath provided 99% of the functionality so it has been changed to simply use that functionality.
+    
+    JMESPath does lack the support for providing a default answer if the search, so this does still introduce some additional functionality
+    
+    :param obj_to_search: Python object representing the structure to search.
+    :type obj_to_search: dict, list or scalar
+    :param json_path: simplified query string indicating what object branch to return
+    :type json_path: str
+    :return: The branch of obj_to_search indicated by json_path
+    :rtype: any, based on the object in obj_to_search pointed to by json_path
+    
+    '''
+    
+    from jmespath import search as jsearch
+    
+    try:
+        r = jsearch(json_path, obj_to_search)
+        if r is None:
+            return defaultAnswer
+        return r
+    except:
+        return defaultAnswer
+    
     '''
     This function helps to navigate structures of lists and dictionaries with the same functionality of the get method of a dictionary without having to string a series of objects together.
     
@@ -122,22 +145,22 @@ def treeGet(following, what, defaultAnswer=None):
             
     '''
     
-    tree = what.split('.')
+    tree = json_path.split('.')
     for nextbranch in tree:
         # Create mutable copy of the current object we are chasing through
         #
-        if isinstance(following, dict):
-            following = dict(following)
+        if isinstance(obj_to_search, dict):
+            obj_to_search = dict(obj_to_search)
             
-        if isinstance(following, list):
-            following = list(following)
+        if isinstance(obj_to_search, list):
+            obj_to_search = list(obj_to_search)
         
         index = None
 
         # if the next step in the tree starts with a bracket then we are doing a simple list accessor
         #
         if nextbranch.startswith('['):
-            if not isinstance(following,list):    # If we are not chasing a list, then we will fail
+            if not isinstance(obj_to_search,list):    # If we are not chasing a list, then we will fail
                 return defaultAnswer
                 
             index = int(nextbranch.split('[')[1].split(']')[0])
@@ -146,7 +169,7 @@ def treeGet(following, what, defaultAnswer=None):
         # dictionary get followed by a list index accessor
         #
         elif nextbranch.endswith(']'):
-            following = following.get(nextbranch.split('[',1)[0], None) # key is what comes before the bracket
+            obj_to_search = obj_to_search.get(nextbranch.split('[',1)[0], None) # key is what comes before the bracket
             alphaindex = nextbranch.split('[',1)[1].split(']',1)[0] # index is what is between the brackets
 
             # if someone tried to do a index "range" we do not currently support that
@@ -159,11 +182,11 @@ def treeGet(following, what, defaultAnswer=None):
         # otherwise we are simply accesssing the next key in a dictionary
         #
         else:
-            following = following.get(nextbranch, None)
+            obj_to_search = obj_to_search.get(nextbranch, None)
         
         # If we didn't survive parsing the nextBranch then fail
         #        
-        if following is None:
+        if obj_to_search is None:
             return defaultAnswer
         
         # If we have an index, then validate and access the entry in the list
@@ -172,22 +195,22 @@ def treeGet(following, what, defaultAnswer=None):
         if index is not None:
             # If we are not looking at a list, then return
             #
-            if not isinstance(following, list):
+            if not isinstance(obj_to_search, list):
                 return defaultAnswer
                 
             # If we are looking at positive indexes, validate the range
             #
-            if index > -1 and len(following) < index:
+            if index > -1 and len(obj_to_search) < index:
                 return defaultAnswer
             
             # Otherwise if we are looking at a negitive index validate the depth in reverse
-            elif index < 0 and len(following) < abs(index):
+            elif index < 0 and len(obj_to_search) < abs(index):
                 return defaultAnswer
                 
-            following = following[index]
+            obj_to_search = obj_to_search[index]
                   
-    #print ("Returning {}".format(following))
-    return following
+    #print ("Returning {}".format(obj_to_search))
+    return obj_to_search
             
 def asList(obj):
     '''Always returns a list, wrapping any other object type into a list

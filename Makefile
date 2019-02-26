@@ -1,11 +1,12 @@
 # vim:ft=make: 
 
-_PYTHON_VERSION=3.6.5
+_PYTHON_VERSION=3.6.6
 
 all: test
 
 isPYENV:
 	@echo --- entering $@
+	@test -n "${PYENV_SHELL}" || echo 'eval "$$(pyenv init -)"' 
 	@test -n "${PYENV_SHELL}"
 
 isValid:
